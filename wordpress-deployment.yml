@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wp-wordpress
+  labels: 
+    app: wordpress-frontend
+  namespace: wordpress
+spec:
+  selector: 
+    matchLabels:
+      app: wordpress-frontend
+  strategy:
+    type: Recreate
+  template: 
+    metadata:
+      labels:
+        app: wordpress-frontend
+    spec:
+      containers:
+      - image: wordpress
+        name: wordpress
+        env:
+        - name: WORDPRESS_DB_NAME
+          value: mysqlDB
+        - name: WORDPRESS_DB_USER
+          value: elie
+        - name: WORDPRESS_DB_PASSWORD
+          value: pass
+        - name: WORDPRESS_DB_HOST
+          value: wp-mysql
+        ports:
+        - containerPort: 80
